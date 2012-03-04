@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{07011FFE-FE85-4093-83ED-2EF741D1C697}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PureMVC.MultiCore.DotNet</RootNamespace>
+    <AssemblyName>PureMVC.MultiCore.DotNet</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Binary\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Binary\PureMVC.MultiCore.DotNet.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Binary\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\Binary\PureMVC.MultiCore.DotNet.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PureMVC\Core\Controller.cs" />
+    <Compile Include="PureMVC\Core\Model.cs" />
+    <Compile Include="PureMVC\Core\View.cs" />
+    <Compile Include="PureMVC\Interfaces\ICommand.cs" />
+    <Compile Include="PureMVC\Interfaces\IController.cs" />
+    <Compile Include="PureMVC\Interfaces\IFacade.cs" />
+    <Compile Include="PureMVC\Interfaces\IMediator.cs" />
+    <Compile Include="PureMVC\Interfaces\IModel.cs" />
+    <Compile Include="PureMVC\Interfaces\INotification.cs" />
+    <Compile Include="PureMVC\Interfaces\INotifier.cs" />
+    <Compile Include="PureMVC\Interfaces\IObserver.cs" />
+    <Compile Include="PureMVC\Interfaces\IProxy.cs" />
+    <Compile Include="PureMVC\Interfaces\IView.cs" />
+    <Compile Include="PureMVC\Patterns\Command\DelegateCommand.cs" />
+    <Compile Include="PureMVC\Patterns\Command\MacroCommand.cs" />
+    <Compile Include="PureMVC\Patterns\Command\SimpleCommand.cs" />
+    <Compile Include="PureMVC\Patterns\Facade\Facade.cs" />
+    <Compile Include="PureMVC\Patterns\Mediator\Mediator.cs" />
+    <Compile Include="PureMVC\Patterns\Observer\Notification.cs" />
+    <Compile Include="PureMVC\Patterns\Observer\Notifier.cs" />
+    <Compile Include="PureMVC\Patterns\Observer\Observer.cs" />
+    <Compile Include="PureMVC\Patterns\Proxy\Proxy.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
