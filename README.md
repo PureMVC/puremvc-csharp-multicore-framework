@@ -5,7 +5,7 @@ PureMVC is a lightweight framework for creating applications based upon the clas
 
 Unit tests are included for VS2005 using NUnit Lite, and in the new style for VS2008 Pro with code coverage.
 
-* [API Docs](http://puremvc.org/pages/docs/CSharp/standard/)
+* [API Docs](http://puremvc.org/pages/docs/CSharp/legacy/standard/)
 * [Discussion](http://forums.puremvc.org/index.php?board=72.0)
 * [Overview Presentation](http://puremvc.tv/#P100)
 
