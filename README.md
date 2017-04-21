@@ -1,14 +1,16 @@
-## [PureMVC](http://puremvc.github.com/) C# MultiCore Framework
+## [PureMVC](http://puremvc.github.com/) C# MultiCore Framework - LEGACY IMPLEMENTATION 
+### For the current implementation with support for targets such as Windows 10 and HoloLens, go [here](https://github.com/PureMVC/puremvc-csharp-standard-framework/wiki)
+
 PureMVC is a lightweight framework for creating applications based upon the classic [Model-View-Controller](http://en.wikipedia.org/wiki/Model-view-controller) design meta-pattern. This is a C# port of the [AS3 reference implementation of the MultiCore Version](https://github.com/PureMVC/puremvc-as3-multicore-framework/wiki). 
 
 Unit tests are included for VS2005 using NUnit Lite, and in the new style for VS2008 Pro with code coverage.
 
-* [API Docs](http://darkstar.puremvc.org/content_header.html?url=http://puremvc.org/pages/docs/CSharp/standard/&desc=PureMVC%20API%20Docs:%20PureMVC%20Standard%20for%20C Sharp)
+* [API Docs](http://puremvc.org/pages/docs/CSharp/standard/)
 * [Discussion](http://forums.puremvc.org/index.php?board=72.0)
 * [Overview Presentation](http://puremvc.tv/#P100)
 
 ## Status
-Production - [Version 1.0](https://github.com/PureMVC/puremvc-csharp-multicore-framework/blob/master/VERSION)
+Legacy - [Version 1.1](https://github.com/PureMVC/puremvc-csharp-multicore-framework/blob/master/VERSION)
 
 ## Platforms / Technologies
 * [C#](http://en.wikipedia.org/wiki/C_Sharp_(programming_language\))
@@ -22,8 +24,8 @@ Production - [Version 1.0](https://github.com/PureMVC/puremvc-csharp-multicore-f
 * Microsoft  Windows CE 5.0
 
 ## License
-* PureMVC C# MultiCore Framework (Ported) - Copyright © 2012 Tang Khai Phuong 
-* PureMVC - Copyright © 2007-2012 Futurescale, Inc.
+* PureMVC C# MultiCore Framework (Ported) / Legacy - Copyright © 2012 Tang Khai Phuong 
+* PureMVC - Copyright © 2007-2017 Futurescale, Inc.
 * All rights reserved.
 
 * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
