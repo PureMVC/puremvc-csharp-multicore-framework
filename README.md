@@ -1,31 +1,32 @@
-## [PureMVC](http://puremvc.github.com/) C# MultiCore Framework - LEGACY IMPLEMENTATION 
-### For the current implementation with support for targets such as Windows 10 and HoloLens, go [here](https://github.com/PureMVC/puremvc-csharp-standard-framework/wiki)
+## [PureMVC](http://puremvc.github.com/) C# MultiCore Framework
 
-PureMVC is a lightweight framework for creating applications based upon the classic [Model-View-Controller](http://en.wikipedia.org/wiki/Model-view-controller) design meta-pattern. This is a C# port of the [AS3 reference implementation of the MultiCore Version](https://github.com/PureMVC/puremvc-as3-multicore-framework/wiki). 
+PureMVC is a lightweight framework for creating applications based upon the classic [Model-View-Controller](http://en.wikipedia.org/wiki/Model-view-controller) design meta-pattern. It supports [modular programming](http://en.wikipedia.org/wiki/Modular_programming) through the use of [Multiton](http://en.wikipedia.org/wiki/Multiton) Core actors instead of the [Singletons](http://en.wikipedia.org/wiki/Singleton_pattern) used in the [Standard](https://github.com/PureMVC/puremvc-csharp-standard-framework/wiki) Version.
 
-Unit tests are included for VS2005 using NUnit Lite, and in the new style for VS2008 Pro with code coverage.
+* [API Docs](http://puremvc.org/pages/docs/CSharp/multicore/)
+* [Unit Tests](http://puremvc.github.io/images/CSharp/unittest/multicore.png)
+* [Discussion](http://forums.puremvc.org/index.php?board=20.0)
+* [MultiCore Version Overview Presentation](http://puremvc.tv/#P002)
 
-* [API Docs](http://puremvc.org/pages/docs/CSharp/legacy/standard/)
-* [Discussion](http://forums.puremvc.org/index.php?board=72.0)
-* [Overview Presentation](http://puremvc.tv/#P100)
+## Nuget Installation
+`Install-Package PureMVC`
 
-## Status
-Legacy - [Version 1.1](https://github.com/PureMVC/puremvc-csharp-multicore-framework/blob/master/VERSION)
+## Utilities
+* [Pipes](https://github.com/PureMVC/puremvc-csharp-util-pipes/wiki)
 
 ## Platforms / Technologies
-* [C#](http://en.wikipedia.org/wiki/C_Sharp_(programming_language\))
-* Microsoft .NET Framework 2.0, 3.0, 3.5
-* Microsoft  WPF 3.0, 4.0
-* Microsoft .NET Compact Framework 2.0, 3.0, 3.5
-* Microsoft  Silverlight 2.0, 3.0, 4.0
-* Microsoft  Windows Mobile 5.0, 6.0
-* Microsoft  Pocket PC (Windows Mobile 6)
-* Microsoft  SmartPhone (Windows Mobile 5)
-* Microsoft  Windows CE 5.0
+* [C#](https://en.wikipedia.org/wiki/C_Sharp_(programming_language))
+* [Windows 10](https://en.wikipedia.org/wiki/Windows_10)
+* [Xamarin](https://en.wikipedia.org/wiki/Xamarin)
+* [Xbox](https://en.wikipedia.org/wiki/Xbox)
+* [Kinect](https://en.wikipedia.org/wiki/Kinect)
+* [HoloLens](https://en.wikipedia.org/wiki/Microsoft_HoloLens)
+
+## Status
+Production - [Version 2.0](https://github.com/PureMVC/puremvc-csharp-multicore-framework/blob/master/VERSION)
 
 ## License
-* PureMVC C# MultiCore Framework (Ported) / Legacy - Copyright © 2012 Tang Khai Phuong 
-* PureMVC - Copyright © 2007-2017 Futurescale, Inc.
+* PureMVC MultiCore Framework for C# - Copyright © 2017 [Saad Shams](http://saad.io)
+* PureMVC - Copyright © 2017 [Futurescale, Inc.](http://futurescale.com/)
 * All rights reserved.
 
 * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
