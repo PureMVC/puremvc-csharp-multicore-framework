@@ -6,6 +6,7 @@ PureMVC is a lightweight framework for creating applications based upon the clas
 * [Unit Tests](http://puremvc.github.io/images/CSharp/unittest/multicore.png)
 * [Discussion](http://forums.puremvc.org/index.php?board=20.0)
 * [MultiCore Version Overview Presentation](http://puremvc.tv/#P002)
+* [Legacy Implementation](https://github.com/PureMVC/puremvc-csharp-multicore-framework/tree/1.1.0)
 
 ## Nuget Installation
 `Install-Package PureMVC`
