@@ -1,15 +1,10 @@
-PureMVC C# MultiCore Framework (Ported) - Legacy
+PureMVC MultiCore Framework for C#
 --------------------------------------------------------------------------
-Release Date: 04/20/17
-    Platform: C# (DotNET, DotNetCF, Silverlight)
-     Version: 1 
-    Revision: 1
-       Minor: 0    
-      Author: Tang Khai Phuong <phuong.tang@puremvc.org>
+Release Date: 04/22/17
+    Platform: C# 
+     Version: 2
+    Revision: 0
+       Minor: 0
+      Author: Saad Shams <saad.shams@puremvc.org>
 --------------------------------------------------------------------------
-1.1 - Moved to legacy. A brand new implementation of standard, multicore
-      and pipes has been built which are more closely in alignment with
-      the reference implementation and are suitable for use with modern
-      development targets like Windows 10 and HoloLens.
-
-1.0 - Initial import from Google Code repo. - CH
+2.0 - Brand new implementation of ported code, equivalent to AS3 MultiCore Version 1.0.5.
