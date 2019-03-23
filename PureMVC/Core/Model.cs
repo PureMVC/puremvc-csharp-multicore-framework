@@ -73,11 +73,11 @@ namespace PureMVC.Core
         /// <c>Model</c> Multiton Factory method. 
         /// </summary>
         /// <param name="key">Key of model</param>
-        /// <param name="modelClassRef">the <c>FuncDelegate</c> of the <c>IModel</c></param>
+        /// <param name="modelFunc">the <c>FuncDelegate</c> of the <c>IModel</c></param>
         /// <returns>the instance for this Multiton key </returns>
-        public static IModel GetInstance(string key, Func<IModel> modelClassRef)
+        public static IModel GetInstance(string key, Func<IModel> modelFunc)
         {
-            return instanceMap.GetOrAdd(key, new Lazy<IModel>(modelClassRef)).Value;
+            return instanceMap.GetOrAdd(key, new Lazy<IModel>(modelFunc)).Value;
         }
 
         /// <summary>

@@ -74,11 +74,11 @@ namespace PureMVC.Core
         /// <c>View</c> Multiton Factory method. 
         /// </summary>
         /// <param name="key">Key of view</param>
-        /// <param name="viewClassRef">the <c>FuncDelegate</c> of the <c>IView</c></param>
+        /// <param name="viewFunc">the <c>FuncDelegate</c> of the <c>IView</c></param>
         /// <returns>the instance for this Multiton key </returns>
-        public static IView GetInstance(string key, Func<IView> viewClassRef)
+        public static IView GetInstance(string key, Func<IView> viewFunc)
         {
-            return instanceMap.GetOrAdd(key, new Lazy<IView>(viewClassRef)).Value;
+            return instanceMap.GetOrAdd(key, new Lazy<IView>(viewFunc)).Value;
         }
 
         /// <summary>

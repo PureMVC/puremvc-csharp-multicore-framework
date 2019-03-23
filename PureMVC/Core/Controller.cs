@@ -95,11 +95,11 @@ namespace PureMVC.Core
         /// <c>Controller</c> Multiton Factory method.
         /// </summary>
         /// <param name="key">Key of controller</param>
-        /// <param name="controllerClassRef">the <c>FuncDelegate</c> of the <c>IController</c></param>
+        /// <param name="controllerFunc">the <c>FuncDelegate</c> of the <c>IController</c></param>
         /// <returns>the Multiton instance of <c>Controller</c></returns>
-        public static IController GetInstance(string key, Func<IController> controllerClassRef)
+        public static IController GetInstance(string key, Func<IController> controllerFunc)
         {
-            return instanceMap.GetOrAdd(key, (k) => new Lazy<IController>(controllerClassRef)).Value;
+            return instanceMap.GetOrAdd(key, (k) => new Lazy<IController>(controllerFunc)).Value;
         }
 
         /// <summary>
@@ -109,9 +109,9 @@ namespace PureMVC.Core
         /// <param name="notification">note an <c>INotification</c></param>
         public virtual void ExecuteCommand(INotification notification)
         {
-            if (commandMap.TryGetValue(notification.Name, out Func<ICommand> commandClassRef))
+            if (commandMap.TryGetValue(notification.Name, out Func<ICommand> commandFunc))
             {
-                ICommand commandInstance = commandClassRef();
+                ICommand commandInstance = commandFunc();
                 commandInstance.InitializeNotifier(multitonKey);
                 commandInstance.Execute(notification);
             }
@@ -133,14 +133,14 @@ namespace PureMVC.Core
         ///     </para>
         /// </remarks>
         /// <param name="notificationName">the name of the <c>INotification</c></param>
-        /// <param name="commandClassRef">the <c>Func Delegate</c> of the <c>ICommand</c></param>
-        public virtual void RegisterCommand(string notificationName, Func<ICommand> commandClassRef)
+        /// <param name="commandFunc">the <c>Func Delegate</c> of the <c>ICommand</c></param>
+        public virtual void RegisterCommand(string notificationName, Func<ICommand> commandFunc)
         {
             if (commandMap.TryGetValue(notificationName, out Func<ICommand> _) == false)
             {
                 view.RegisterObserver(notificationName, new Observer(ExecuteCommand, this));
             }
-            commandMap[notificationName] = commandClassRef;
+            commandMap[notificationName] = commandFunc;
         }
 
         /// <summary>

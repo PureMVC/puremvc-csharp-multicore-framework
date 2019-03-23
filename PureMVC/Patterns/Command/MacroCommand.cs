@@ -98,10 +98,10 @@ namespace PureMVC.Patterns.Command
         ///         order.
         ///     </para>
         /// </remarks>
-        /// <param name="commandClassRef">a reference to the <c>FuncDelegate</c> of the <c>ICommand</c>.</param>
-        protected void AddSubCommand(Func<ICommand> commandClassRef)
+        /// <param name="commandFunc">a reference to the <c>FuncDelegate</c> of the <c>ICommand</c>.</param>
+        protected void AddSubCommand(Func<ICommand> commandFunc)
         {
-            subcommands.Add(commandClassRef);
+            subcommands.Add(commandFunc);
         }
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace PureMVC.Patterns.Command
         {
             while(subcommands.Count > 0)
             {
-                Func<ICommand> commandClassRef = subcommands[0];
-                ICommand commandInstance = commandClassRef();
+                Func<ICommand> commandFunc = subcommands[0];
+                ICommand commandInstance = commandFunc();
                 commandInstance.InitializeNotifier(MultitonKey);
                 commandInstance.Execute(notification);
                 subcommands.RemoveAt(0);

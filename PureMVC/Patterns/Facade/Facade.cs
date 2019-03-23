@@ -64,11 +64,11 @@ namespace PureMVC.Patterns.Facade
         /// Facade Multiton Factory method
         /// </summary>
         /// <param name="key">Key of facade</param>
-        /// <param name="facadeClassRef">the <c>FuncDelegate</c> of the <c>IFacade</c></param>
+        /// <param name="facadeFunc">the <c>FuncDelegate</c> of the <c>IFacade</c></param>
         /// <returns>the Multiton instance of the Facade</returns>
-        public static IFacade GetInstance(string key, Func<IFacade> facadeClassRef)
+        public static IFacade GetInstance(string key, Func<IFacade> facadeFunc)
         {
-            return instanceMap.GetOrAdd(key, new Lazy<IFacade>(facadeClassRef)).Value;
+            return instanceMap.GetOrAdd(key, new Lazy<IFacade>(facadeFunc)).Value;
         }
 
         /// <summary>
@@ -151,10 +151,10 @@ namespace PureMVC.Patterns.Facade
         /// Register an <c>ICommand</c> with the <c>Controller</c> by Notification name.
         /// </summary>
         /// <param name="notificationName">the name of the <c>INotification</c> to associate the <c>ICommand</c> with</param>
-        /// <param name="commandClassRef">a reference to the Class of the <c>ICommand</c></param>
-        public virtual void RegisterCommand(string notificationName, Func<ICommand> commandClassRef)
+        /// <param name="commandFunc">a reference to the Class of the <c>ICommand</c></param>
+        public virtual void RegisterCommand(string notificationName, Func<ICommand> commandFunc)
         {
-            controller.RegisterCommand(notificationName, commandClassRef);
+            controller.RegisterCommand(notificationName, commandFunc);
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace PureMVC.Patterns.Facade
         /// <param name="notificationName">the name of the notiification to send</param>
         /// <param name="body">the body of the notification (optional)</param>
         /// <param name="type">type the type of the notification (optional)</param>
-        public virtual void SendNotification(string notificationName, object body=null, string type = null)
+        public virtual void SendNotification(string notificationName, object body = null, string type = null)
         {
             NotifyObservers(new Notification(notificationName, body, type));
         }

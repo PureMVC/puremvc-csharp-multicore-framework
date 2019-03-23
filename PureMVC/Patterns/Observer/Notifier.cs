@@ -62,7 +62,7 @@ namespace PureMVC.Patterns.Observer
         /// <param name="notificationName">the name of the notiification to send</param>
         /// <param name="body">the body of the notification (optional)</param>
         /// <param name="type">the type of the notification (optional)</param>
-        public virtual void SendNotification(string notificationName, object body, string type)
+        public virtual void SendNotification(string notificationName, object body = null, string type = null)
         {
             Facade.SendNotification(notificationName, body, type);
         }

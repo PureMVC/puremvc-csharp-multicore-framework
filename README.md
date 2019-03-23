@@ -9,7 +9,7 @@ PureMVC is a lightweight framework for creating applications based upon the clas
 * [Legacy Implementation](https://github.com/PureMVC/puremvc-csharp-multicore-framework/tree/1.1.0)
 
 ## Nuget Installation
-`Install-Package PureMVC`
+`Install-Package PureMVC.Multicore`
 
 ## Utilities
 * [Pipes](https://github.com/PureMVC/puremvc-csharp-util-pipes/wiki)
@@ -23,10 +23,10 @@ PureMVC is a lightweight framework for creating applications based upon the clas
 * [HoloLens](https://en.wikipedia.org/wiki/Microsoft_HoloLens)
 
 ## Status
-Production - [Version 2.0](https://github.com/PureMVC/puremvc-csharp-multicore-framework/blob/master/VERSION)
+Production - [Version 2.1](https://github.com/PureMVC/puremvc-csharp-multicore-framework/blob/master/VERSION)
 
 ## License
-* PureMVC MultiCore Framework for C# - Copyright © 2017 [Saad Shams](http://saad.io)
+* PureMVC MultiCore Framework for C# - Copyright © 2017 [Saad Shams](https://www.linkedin.com/in/muizz)
 * PureMVC - Copyright © 2017 [Futurescale, Inc.](http://futurescale.com/)
 * All rights reserved.
 
