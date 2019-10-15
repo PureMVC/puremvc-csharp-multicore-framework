@@ -11,6 +11,9 @@ PureMVC is a lightweight framework for creating applications based upon the clas
 ## Nuget Installation
 `dotnet add package PureMVC.Multicore`
 
+## Demos
+* [Employee Admin Microservice](https://github.com/PureMVC/puremvc-csharp-demo-microservice-employeeadmin/wiki)
+
 ## Utilities
 * [Pipes](https://github.com/PureMVC/puremvc-csharp-util-pipes/wiki)
 
