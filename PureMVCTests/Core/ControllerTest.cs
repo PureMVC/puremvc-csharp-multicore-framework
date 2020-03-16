@@ -5,6 +5,8 @@
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
+using System.Collections.Generic;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PureMVC.Interfaces;
 using PureMVC.Patterns.Observer;
@@ -26,11 +28,35 @@ namespace PureMVC.Core
         public void TestGetInstance()
         {
             // Test Factory Method
-            IController controller = Controller.GetInstance("ControllerTestKey1", () => new Controller("ControllerTestKey1"));
+            var controller = Controller.GetInstance("ControllerTestKey1", key => new Controller(key));
 
             // test assertions
             Assert.IsNotNull(controller, "Expecting instance not null");
             Assert.IsTrue(controller != null, "Expecting instance implements IController");
+        }
+        
+        /// <summary>
+        /// Tests the Controller Thread Safety
+        /// </summary>
+        [TestMethod]
+        public void TestGetInstanceThreadSafety()
+        {
+            var instances = new List<IController>();
+            for (var i = 0; i < 1000; i++)
+            {
+                new Thread(() =>
+                {
+                    instances.Add(Controller.GetInstance("ThreadSafety", key => new Controller(key)));
+                }).Start();
+            }
+
+            // test assertions
+            for (int i = 1, count = instances.Count; i < count; i++)
+            {
+                Assert.AreEqual(instances[0], instances[i]);
+            }
+
+            Controller.GetInstance("ThreadSafety", key => new Controller(key));
         }
 
         /// <summary>
@@ -54,12 +80,12 @@ namespace PureMVC.Core
         public void TestRegisterAndExecuteCommand()
         {
             // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
-            IController controller = Controller.GetInstance("ControllerTestKey2", () => new Controller("ControllerTestKey2"));
+            var controller = Controller.GetInstance("ControllerTestKey2", key => new Controller(key));
             controller.RegisterCommand("ControllerTest", () => new ControllerTestCommand() );
 
             // Create a 'ControllerTest' notification
             var vo = new ControllerTestVO(12);
-            INotification note = new Notification("ControllerTest", vo);
+            var note = new Notification("ControllerTest", vo);
 
             // Tell the controller to execute the Command associated with the notification
             // the ControllerTestCommand invoked will multiply the vo.input value
@@ -83,12 +109,12 @@ namespace PureMVC.Core
         public void TestRegisterAndRemoveCommand()
         {
             // Create the controller, register the ControllerTestCommand to handle 'ControllerTest' notes
-            IController controller = Controller.GetInstance("ControllerTestKey3", () => new Controller("ControllerTestKey3"));
+            var controller = Controller.GetInstance("ControllerTestKey3", key => new Controller(key));
             controller.RegisterCommand("ControllerRemoveTest", () => new ControllerTestCommand());
 
             // Create a 'ControllerTest' note
-            ControllerTestVO vo = new ControllerTestVO(12);
-            INotification note = new Notification("ControllerRemoveTest", vo);
+            var vo = new ControllerTestVO(12);
+            var note = new Notification("ControllerRemoveTest", vo);
 
             // Tell the controller to execute the Command associated with the note
             // the ControllerTestCommand invoked will multiply the vo.input value
@@ -121,7 +147,7 @@ namespace PureMVC.Core
         public void TestHasCommand()
         {
             // register the ControllerTestCommand to handle 'hasCommandTest' notes
-            IController controller = Controller.GetInstance("ControllerTestKey4", () => new Controller("TestKey4"));
+            var controller = Controller.GetInstance("ControllerTestKey4", key => new Controller(key));
             controller.RegisterCommand("HasCommandTest", () => new ControllerTestCommand());
 
             // test that hasCommand returns true for hasCommandTest notifications 
@@ -152,21 +178,21 @@ namespace PureMVC.Core
         public void TestReRegisterAndExecuteCommand()
         {
             // Fetch the controller, register the ControllerTestCommand2 to handle 'ControllerTest2' notes
-            IController controller = Controller.GetInstance("ControllerTestKey5", () => new Controller("ControllerTestKey5"));
+            var controller = Controller.GetInstance("ControllerTestKey5", key => new Controller(key));
             controller.RegisterCommand("ControllerTest2", () => new ControllerTestCommand2());
 
             // Remove the Command from the Controller
-            controller.RemoveCommand("ContrllerTest2");
+            controller.RemoveCommand("ControllerTest2");
 
             // Re-register the Command with the Controller
             controller.RegisterCommand("ControllerTest2", () => new ControllerTestCommand2());
 
             // Create a 'ControllerTest2' note
-            ControllerTestVO vo = new ControllerTestVO(12);
-            INotification note = new Notification("ControllerTest2", vo);
+            var vo = new ControllerTestVO(12);
+            var note = new Notification("ControllerTest2", vo);
 
             // retrieve a reference to the View from the same core.
-            IView view = View.GetInstance("ControllerTestKey5", () => new View("ControllerTestKey5"));
+            var view = View.GetInstance("ControllerTestKey5", key => new View(key));
 
             // send the Notification
             view.NotifyObservers(note);

@@ -16,7 +16,7 @@ namespace PureMVC.Core
     public class ViewTestMediator : Mediator
     {
         // The Mediator name
-        public static new string NAME = "ViewTestMediator";
+        public new const string NAME = "ViewTestMediator";
 
         // Constructor
         public ViewTestMediator(object viewComponent) : base(NAME, viewComponent)
@@ -27,7 +27,7 @@ namespace PureMVC.Core
         // in order to test removeMediator
         public override string[] ListNotificationInterests()
         {
-            return new string[3] { "ABC", "DEF", "GHI"};
+            return new [] { "ABC", "DEF", "GHI"};
         }
     }
 }

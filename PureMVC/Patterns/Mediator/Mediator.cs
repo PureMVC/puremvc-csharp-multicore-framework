@@ -14,7 +14,7 @@ namespace PureMVC.Patterns.Mediator
     /// A base <c>IMediator</c> implementation. 
     /// </summary>
     /// <seealso cref="PureMVC.Core.View"/>
-    public class Mediator : Notifier, IMediator, INotifier
+    public class Mediator : Notifier, IMediator
     {
         /// <summary>
         /// The name of the <c>Mediator</c>. 
@@ -26,7 +26,7 @@ namespace PureMVC.Patterns.Mediator
         ///         will not have a need to be dynamically named.
         ///     </para>
         /// </remarks>
-        public static string NAME = "Mediator";
+        public const string NAME = "Mediator";
 
         /// <summary>
         /// Constructor.
@@ -35,7 +35,7 @@ namespace PureMVC.Patterns.Mediator
         /// <param name="viewComponent"></param>
         public Mediator(string mediatorName, object viewComponent = null)
         {
-            MediatorName = mediatorName ?? Mediator.NAME;
+            MediatorName = mediatorName ?? NAME;
             ViewComponent = viewComponent;
         }
 

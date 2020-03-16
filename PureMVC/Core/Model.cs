@@ -40,16 +40,14 @@ namespace PureMVC.Core
         ///         This <c>IModel</c> implementation is a Multiton, 
         ///         so you should not call the constructor 
         ///         directly, but instead call the static Multiton 
-        ///         Factory method <c>Model.getInstance(multitonKey, () => new Model(multitonKey))</c>
+        ///         Factory method <c>Model.getInstance(multitonKey, key => new Model(key))</c>
         ///     </para>
         /// </remarks>
         /// <param name="key">Key of model</param>
-        /// <exception cref="System.Exception">Thrown if instance for this Multiton key has already been constructed</exception>
         public Model(string key)
         {
-            if (instanceMap.ContainsKey(key) && multitonKey != null) throw new Exception(MULTITON_MSG);
             multitonKey = key;
-            instanceMap.TryAdd(key, new Lazy<IModel>(() => this));
+            InstanceMap.TryAdd(key, new Lazy<IModel>(this));
             proxyMap = new ConcurrentDictionary<string, IProxy>();
             InitializeModel();
         }
@@ -73,11 +71,11 @@ namespace PureMVC.Core
         /// <c>Model</c> Multiton Factory method. 
         /// </summary>
         /// <param name="key">Key of model</param>
-        /// <param name="modelFunc">the <c>FuncDelegate</c> of the <c>IModel</c></param>
+        /// <param name="func">the <c>FuncDelegate</c> of the <c>IModel</c></param>
         /// <returns>the instance for this Multiton key </returns>
-        public static IModel GetInstance(string key, Func<IModel> modelFunc)
+        public static IModel GetInstance(string key, Func<string, IModel> func)
         {
-            return instanceMap.GetOrAdd(key, new Lazy<IModel>(modelFunc)).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IModel>(() => func(key))).Value;
         }
 
         /// <summary>
@@ -98,7 +96,7 @@ namespace PureMVC.Core
         /// <returns>the <c>IProxy</c> instance previously registered with the given <c>proxyName</c>.</returns>
         public virtual IProxy RetrieveProxy(string proxyName)
         {
-            return proxyMap.TryGetValue(proxyName, out IProxy proxy) ? proxy : null;
+            return proxyMap.TryGetValue(proxyName, out var proxy) ? proxy : null;
         }
 
         /// <summary>
@@ -108,7 +106,7 @@ namespace PureMVC.Core
         /// <returns>the <c>IProxy</c> that was removed from the <c>Model</c></returns>
         public virtual IProxy RemoveProxy(string proxyName)
         {
-            if (proxyMap.TryRemove(proxyName, out IProxy proxy))
+            if (proxyMap.TryRemove(proxyName, out var proxy))
             {
                 proxy.OnRemove();
             }
@@ -131,19 +129,16 @@ namespace PureMVC.Core
         /// <param name="key">multitonKey of IModel instance to remove</param>
         public static void RemoveModel(string key)
         {
-            instanceMap.TryRemove(key, out Lazy<IModel> _);
+            InstanceMap.TryRemove(key, out _);
         }
 
         /// <summary>The Multiton Key for this Core</summary>
-        protected string multitonKey;
+        protected readonly string multitonKey;
 
         /// <summary>Mapping of proxyNames to IProxy instances</summary>
         protected readonly ConcurrentDictionary<string, IProxy> proxyMap;
 
         /// <summary>The Multiton Model instanceMap.</summary>
-        protected static readonly ConcurrentDictionary<string, Lazy<IModel>> instanceMap = new ConcurrentDictionary<string, Lazy<IModel>>();
-
-        /// <summary>Message Constants</summary>
-        protected const string MULTITON_MSG = "Model instance for this Multiton key already constructed!";
+        protected static readonly ConcurrentDictionary<string, Lazy<IModel>> InstanceMap = new ConcurrentDictionary<string, Lazy<IModel>>();
     }
 }

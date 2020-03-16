@@ -71,7 +71,7 @@ namespace PureMVC.Interfaces
         void NotifyObserver(INotification notification);
 
         /// <summary>
-        /// Compare the given object to the notificaiton context object.
+        /// Compare the given object to the notification context object.
         /// </summary>
         /// <param name="obj">the object to compare.</param>
         /// <returns>indicating if the notification context and the object are the same.</returns>

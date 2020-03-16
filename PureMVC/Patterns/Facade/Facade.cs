@@ -30,16 +30,14 @@ namespace PureMVC.Patterns.Facade
         ///         so you should not call the constructor 
         ///         directly, but instead call the static Factory method, 
         ///         passing the unique key for this instance 
-        ///         <c>Facade.getInstance( multitonKey, () => new Facade(multitonKey) )</c>
+        ///         <c>Facade.getInstance( multitonKey, key => new Facade(key) )</c>
         ///     </para>
         /// </remarks>
         /// <param name="key">Key of view</param>
-        /// <exception cref="System.Exception">Thrown if instance for this Multiton key has already been constructed</exception>
         public Facade(string key)
         {
-            if (instanceMap.TryGetValue(key, out Lazy<IFacade> facade) && multitonKey != null) throw new Exception(MULTITON_MSG);
             InitializeNotifier(key);
-            instanceMap.TryAdd(key, new Lazy<IFacade>(() => this));
+            InstanceMap.TryAdd(key, new Lazy<IFacade>(this));
             InitializeFacade();
         }
 
@@ -64,11 +62,11 @@ namespace PureMVC.Patterns.Facade
         /// Facade Multiton Factory method
         /// </summary>
         /// <param name="key">Key of facade</param>
-        /// <param name="facadeFunc">the <c>FuncDelegate</c> of the <c>IFacade</c></param>
+        /// <param name="func">the <c>FuncDelegate</c> of the <c>IFacade</c></param>
         /// <returns>the Multiton instance of the Facade</returns>
-        public static IFacade GetInstance(string key, Func<IFacade> facadeFunc)
+        public static IFacade GetInstance(string key, Func<string, IFacade> func)
         {
-            return instanceMap.GetOrAdd(key, new Lazy<IFacade>(facadeFunc)).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IFacade>(() => func(key))).Value;
         }
 
         /// <summary>
@@ -92,7 +90,7 @@ namespace PureMVC.Patterns.Facade
         /// </remarks>
         protected virtual void InitializeController()
         {
-            controller = Controller.GetInstance(multitonKey, () => new Controller(multitonKey));
+            controller = Controller.GetInstance(multitonKey, key => new Controller(key));
         }
 
         /// <summary>
@@ -125,7 +123,7 @@ namespace PureMVC.Patterns.Facade
         /// </remarks>
         protected virtual void InitializeModel()
         {
-            model = Model.GetInstance(multitonKey, () => new Model(multitonKey));
+            model = Model.GetInstance(multitonKey, key => new Model(key));
         }
 
         /// <summary>
@@ -144,7 +142,7 @@ namespace PureMVC.Patterns.Facade
         /// </remarks>
         protected virtual void InitializeView()
         {
-            view = View.GetInstance(multitonKey, () => new View(multitonKey));
+            view = View.GetInstance(multitonKey, key => new View(key));
         }
 
         /// <summary>
@@ -316,7 +314,7 @@ namespace PureMVC.Patterns.Facade
         /// <returns>whether a Core is registered with the given <c>key</c>.</returns>
         public static bool HasCore(string key)
         {
-            return instanceMap.TryGetValue(key, out Lazy<IFacade> _);
+            return InstanceMap.TryGetValue(key, out _);
         }
 
         /// <summary>
@@ -331,11 +329,11 @@ namespace PureMVC.Patterns.Facade
         /// <param name="key">multitonKey of the Core to remove</param>
         public static void RemoveCore(string key)
         {
-            if (instanceMap.TryGetValue(key, out Lazy<IFacade> _) == false) return;
+            if (InstanceMap.TryGetValue(key, out _) == false) return;
             Model.RemoveModel(key);
             View.RemoveView(key);
             Controller.RemoveController(key);
-            instanceMap.TryRemove(key, out Lazy<IFacade> _);
+            InstanceMap.TryRemove(key, out _);
         }
 
         /// <summary>References to Controller</summary>
@@ -351,9 +349,7 @@ namespace PureMVC.Patterns.Facade
         protected string multitonKey;
 
         /// <summary>The Multiton Facade instanceMap.</summary>
-        protected static ConcurrentDictionary<string, Lazy<IFacade>> instanceMap = new ConcurrentDictionary<string, Lazy<IFacade>>();
+        protected static readonly ConcurrentDictionary<string, Lazy<IFacade>> InstanceMap = new ConcurrentDictionary<string, Lazy<IFacade>>();
 
-        /// <summary>Message Constants</summary>
-        protected const string MULTITON_MSG = "View instance for this Multiton key already constructed!";
     }
 }

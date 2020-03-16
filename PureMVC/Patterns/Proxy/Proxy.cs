@@ -32,10 +32,10 @@ namespace PureMVC.Patterns.Proxy
     ///     </para>
     /// </remarks>
     /// <seealso cref="PureMVC.Core.Model"/>
-    public class Proxy: Notifier, IProxy, INotifier
+    public class Proxy: Notifier, IProxy
     {
         /// <summary>Name of the proxy</summary>
-        public static string NAME = "Proxy";
+        public const string NAME = "Proxy";
 
         /// <summary>
         /// Constructor.
@@ -44,7 +44,7 @@ namespace PureMVC.Patterns.Proxy
         /// <param name="data"></param>
         public Proxy(string proxyName, object data = null)
         {
-            ProxyName = proxyName ?? Proxy.NAME;
+            ProxyName = proxyName ?? NAME;
             if (data != null) Data = data;
         }
 

@@ -23,7 +23,7 @@ namespace PureMVC.Patterns.Facade
         /// <param name="notification">note the Notification carrying the FacadeTestVO</param>
         public override void Execute(INotification notification)
         {
-            FacadeTestVO vo = (FacadeTestVO)notification.Body;
+            var vo = (FacadeTestVO) notification.Body;
 
             // Fabricate a result
             vo.result = 2 * vo.input;

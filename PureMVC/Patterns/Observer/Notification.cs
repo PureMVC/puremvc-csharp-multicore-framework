@@ -66,7 +66,7 @@ namespace PureMVC.Patterns.Observer
         /// <returns>the string representation of the <c>Notification</c> instance.</returns>
         public override string ToString()
         {
-            string msg = "Notification Name: " + Name;
+            var msg = "Notification Name: " + Name;
             msg += "\nBody:" + ((Body == null) ? "null" : Body.ToString());
             msg += "\nType:" + ((Type == null) ? "null" : Type);
             return msg;

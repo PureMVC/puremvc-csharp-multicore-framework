@@ -59,10 +59,10 @@ namespace PureMVC.Patterns.Command
             var vo = new MacroCommandTestVO(5);
 
             // Create the Notification (notification)
-            INotification note = new Notification("MacroCommandTest", vo);
+            var note = new Notification("MacroCommandTest", vo);
 
             // Create the SimpleCommand  			
-            ICommand command = new MacroCommandTestCommand();
+            var command = new MacroCommandTestCommand();
 
             // Execute the SimpleCommand
             command.Execute(note);

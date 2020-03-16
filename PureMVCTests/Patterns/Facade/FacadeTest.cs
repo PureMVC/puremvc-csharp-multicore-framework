@@ -5,6 +5,8 @@
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
+using System.Collections.Generic;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PureMVC.Interfaces;
 
@@ -25,11 +27,35 @@ namespace PureMVC.Patterns.Facade
         public void TestGetInstance()
         {
             // Test Factory Method
-            IFacade facade = Facade.GetInstance("FacadeTestKey1", () => new Facade("FacadeTestKey1"));
+            var facade = Facade.GetInstance("FacadeTestKey1", key => new Facade(key));
 
             // test assertions
             Assert.IsTrue(facade != null, "Expecting instance not null");
             Assert.IsTrue(facade is IFacade, "Expecting instance implements IFacade");
+        }
+        
+        /// <summary>
+        /// Tests the Facade Thread Safety
+        /// </summary>
+        [TestMethod]
+        public void TestGetInstanceThreadSafety()
+        {
+            var instances = new List<IFacade>();
+            for (var i = 0; i < 1000; i++)
+            {
+                new Thread(() =>
+                {
+                    instances.Add(Facade.GetInstance("ThreadSafety", key => new Facade(key)));
+                }).Start();
+            }
+
+            // test assertions
+            for (int i = 1, count = instances.Count; i < count; i++)
+            {
+                Assert.AreEqual(instances[0], instances[i]);
+            }
+
+            Facade.GetInstance("ThreadSafety", key => new Facade(key));
         }
 
         /// <summary>
@@ -53,13 +79,13 @@ namespace PureMVC.Patterns.Facade
         {
             // Create the Facade, register the FacadeTestCommand to 
             // handle 'FacadeTest' notifications
-            IFacade facade = Facade.GetInstance("FacadeTestKey2", () => new Facade("FacadeTestKey2"));
+            var facade = Facade.GetInstance("FacadeTestKey2", key => new Facade(key));
             facade.RegisterCommand("FacadeTestNote", () => new FacadeTestCommand());
 
             // Send notification. The Command associated with the event
             // (FacadeTestCommand) will be invoked, and will multiply 
             // the vo.input value by 2 and set the result on vo.result
-            FacadeTestVO vo = new FacadeTestVO(32);
+            var vo = new FacadeTestVO(32);
             facade.SendNotification("FacadeTestNote", vo);
 
             // test assertions
@@ -87,14 +113,14 @@ namespace PureMVC.Patterns.Facade
         {
             // Create the Facade, register the FacadeTestCommand to 
             // handle 'FacadeTest' events
-            IFacade facade = Facade.GetInstance("FacadeTestKey3", () => new Facade("FacadeTestKey3"));
+            var facade = Facade.GetInstance("FacadeTestKey3", key => new Facade(key));
             facade.RegisterCommand("FacadeTestNote", () => new FacadeTestCommand());
             facade.RemoveCommand("FacadeTestNote");
 
             // Send notification. The Command associated with the event
             // (FacadeTestCommand) will NOT be invoked, and will NOT multiply 
             // the vo.input value by 2 
-            FacadeTestVO vo = new FacadeTestVO(32);
+            var vo = new FacadeTestVO(32);
             facade.SendNotification("FacadeTestNote", vo);
 
             // test assertions 
@@ -116,15 +142,15 @@ namespace PureMVC.Patterns.Facade
         public void TestRegisterAndRetrieveProxy()
         {
             // register a proxy and retrieve it.
-            IFacade facade = Facade.GetInstance("FacadeTestKey4", () => new Facade("FacadeTestKey4"));
-            facade.RegisterProxy(new Proxy.Proxy("colors", new string[3] { "red", "green", "blue" }));
-            IProxy proxy = facade.RetrieveProxy("colors");
+            var facade = Facade.GetInstance("FacadeTestKey4", key => new Facade(key));
+            facade.RegisterProxy(new Proxy.Proxy("colors", new [] { "red", "green", "blue" }));
+            var proxy = facade.RetrieveProxy("colors");
 
             // test assertions
-            Assert.IsTrue(proxy is IProxy, "Expecting proxy is IProxy");
+            Assert.IsTrue(proxy != null, "Expecting proxy != null");
 
             // retrieve data from proxy
-            string[] data = (string[])proxy.Data;
+            var data = (string[])proxy.Data;
 
             // test assertions
             Assert.IsNotNull(data, "Expecting data not null");
@@ -141,12 +167,12 @@ namespace PureMVC.Patterns.Facade
         public void TestRegisterAndRemoveProxy()
         {
             // register a proxy, remove it, then try to retrieve it
-            IFacade facade = Facade.GetInstance("FacadeTestKey5", () => new Facade("FacadeTestKey5"));
-            IProxy proxy = new Proxy.Proxy("sizes", new string[3] { "7", "13", "21" });
+            var facade = Facade.GetInstance("FacadeTestKey5", key => new Facade(key));
+            IProxy proxy = new Proxy.Proxy("sizes", new [] { "7", "13", "21" });
             facade.RegisterProxy(proxy);
 
             // remove the proxy
-            IProxy removedProxy = facade.RemoveProxy("sizes");
+            var removedProxy = facade.RemoveProxy("sizes");
 
             // assert that we removed the appropriate proxy
             Assert.IsTrue(removedProxy.ProxyName == "sizes", "Expecting removedProxy.ProxyName == 'sizes'");
@@ -165,14 +191,14 @@ namespace PureMVC.Patterns.Facade
         public void TestRegisterRetrieveAndRemoveMediator()
         {
             // register a mediator, remove it, then try to retrieve it
-            IFacade facade = Facade.GetInstance("FacadeTestKey6", () => new Facade("FacadeTestKey6"));
+            var facade = Facade.GetInstance("FacadeTestKey6", key => new Facade(key));
             facade.RegisterMediator(new Mediator.Mediator(Mediator.Mediator.NAME, new object()));
 
             // retrieve the mediator
             Assert.IsNotNull(facade.RetrieveMediator(Mediator.Mediator.NAME));
 
             // remove the mediator
-            IMediator removedMediator = facade.RemoveMediator(Mediator.Mediator.NAME);
+            var removedMediator = facade.RemoveMediator(Mediator.Mediator.NAME);
 
             // assert that we have removed the appropriate mediator
             Assert.IsTrue(removedMediator.MediatorName == Mediator.Mediator.NAME, "Expecting removedMediator.MediatorName == Mediator.NAME");
@@ -185,8 +211,8 @@ namespace PureMVC.Patterns.Facade
         public void TestHasProxy()
         {
             // register a Proxy
-            IFacade facade = Facade.GetInstance("FacadeTestKey7", () => new Facade("FacadeTestKey7"));
-            facade.RegisterProxy(new Proxy.Proxy("hasProxyTest", new int[] { 1, 2, 3 }));
+            var facade = Facade.GetInstance("FacadeTestKey7", key => new Facade(key));
+            facade.RegisterProxy(new Proxy.Proxy("hasProxyTest", new [] { 1, 2, 3 }));
 
             // assert that the model.hasProxy method returns true
             // for that proxy name
@@ -200,7 +226,7 @@ namespace PureMVC.Patterns.Facade
         public void TestHasMediator()
         {
             // register a Mediator
-            IFacade facade = Facade.GetInstance("FacadeTestKey8", () => new Facade("FacadeTestKey8"));
+            var facade = Facade.GetInstance("FacadeTestKey8", key => new Facade(key));
             facade.RegisterMediator(new Mediator.Mediator("facadeHasMediatorTest", new object()));
 
             // assert that the facade.hasMediator method returns true
@@ -221,7 +247,7 @@ namespace PureMVC.Patterns.Facade
         public void TestHasCommand()
         {
             // register the ControllerTestCommand to handle 'hasCommandTest' notes
-            IFacade facade = Facade.GetInstance("FacadTestKey10", () => new Facade("FacadeTestKey10"));
+            var facade = Facade.GetInstance("FacadTestKey10", key => new Facade(key));
             facade.RegisterCommand("facadeHasCommandTest", () => new FacadeTestCommand());
 
             // test that hasCommand returns true for hasCommandTest notifications 
@@ -244,7 +270,7 @@ namespace PureMVC.Patterns.Facade
             Assert.IsFalse(Facade.HasCore("FacadeTestKey11"), "Expecting Facade.HasCore('FacadeTestKey11') == false");
 
             // register a Core
-            IFacade facade = Facade.GetInstance("FacadeTestKey11", () => new Facade("FacadeTestKey11"));
+            Facade.GetInstance("FacadeTestKey11", key => new Facade(key));
 
             // assert that the Facade.hasCore method returns true now that a Core is registered
             Assert.IsTrue(Facade.HasCore("FacadeTestKey11"), "Expecting Facade.HasCore('FacadeTestKey11') == true");

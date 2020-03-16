@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <PackageId>PureMVC.Multicore</PackageId>
     <Version>2.1.0</Version>
     <Description>PureMVC is a lightweight framework for creating applications based upon the classic Model-View-Controller design meta-pattern.</Description>

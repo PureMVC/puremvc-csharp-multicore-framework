@@ -26,7 +26,7 @@ namespace PureMVC.Core
         /// <param name="notification">the note carrying the ControllerTestVO</param>
         public override void Execute(INotification notification)
         {
-            ControllerTestVO vo = (ControllerTestVO)notification.Body;
+            var vo = (ControllerTestVO) notification.Body;
 
             // Fabricate a result
             vo.result = vo.result + (2 * vo.input);

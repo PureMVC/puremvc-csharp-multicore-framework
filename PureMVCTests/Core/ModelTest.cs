@@ -4,6 +4,9 @@
 //  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
+
+using System.Collections.Generic;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PureMVC.Interfaces;
 using PureMVC.Patterns.Proxy;
@@ -23,11 +26,35 @@ namespace PureMVC.Core
         public void TestGetInstance()
         {
             // Test Factory Method
-            IModel model = Model.GetInstance("str", () => new Model("str"));
+            var model = Model.GetInstance("ModelTestKey", key => new Model(key));
 
             // test assertions
             Assert.IsNotNull(model, "Expecting instance not null");
             Assert.IsTrue(model != null, "Expecting instance implements IModel");
+        }
+
+        /// <summary>
+        /// Tests the Model Thread Safety
+        /// </summary>
+        [TestMethod]
+        public void TestGetInstanceThreadSafety()
+        {
+            var instances = new List<IModel>();
+            for (var i = 0; i < 1000; i++)
+            {
+                new Thread(() =>
+                {
+                    instances.Add(Model.GetInstance("ThreadSafety", key => new Model(key)));
+                }).Start();
+            }
+
+            // test assertions
+            for (int i = 1, count = instances.Count; i < count; i++)
+            {
+                Assert.AreEqual(instances[0], instances[i]);
+            }
+
+            Model.GetInstance("ThreadSafety", key => new Model(key));
         }
 
         /// <summary>
@@ -45,10 +72,10 @@ namespace PureMVC.Core
         public void TestRegisterAndRetrieveProxy()
         {
             // register a proxy and retrieve it.
-            IModel model = Model.GetInstance("ModelTestKey2", () => new Model("ModelTestKey2"));
+            var model = Model.GetInstance("ModelTestKey2", key => new Model(key));
             model.RegisterProxy(new Proxy("colors", new string[3]{ "red", "green", "blue" }));
-            IProxy proxy = model.RetrieveProxy("colors");
-            string[] data = (string[])proxy.Data;
+            var proxy = model.RetrieveProxy("colors");
+            var data = (string[])proxy.Data;
 
             // test assertions
             Assert.IsNotNull(data, "Expecting data not null");
@@ -66,12 +93,12 @@ namespace PureMVC.Core
         public void TestRegisterAndRemoveProxy()
         {
             // register a proxy, remove it, then try to retrieve it
-            IModel model = Model.GetInstance("ModelTestKey3", () => new Model("ModelTestKey3"));
+            var model = Model.GetInstance("ModelTestKey3", key => new Model(key));
             model.RegisterProxy(new Proxy("sizes", new int[3]{ 7, 13, 21 }));
-            IProxy removedProxy = model.RemoveProxy("sizes");
+            var removedProxy = model.RemoveProxy("sizes");
 
             Assert.IsTrue(removedProxy.ProxyName == "sizes", "Expecting removedProxy.ProxyName == 'sizes'");
-            IProxy proxy = model.RetrieveProxy("sizes");
+            var proxy = model.RetrieveProxy("sizes");
 
             // test assertions
             Assert.IsNull(proxy, "Expecting proxy is null");
@@ -84,8 +111,8 @@ namespace PureMVC.Core
         public void TestHasProxy()
         {
             // register a proxy
-            IModel model = Model.GetInstance("ModelTestKey4", () => new Model("ModelTestKey4"));
-            IProxy proxy = new Proxy("aces", new string[] { "clubs", "spades", "hearts", "diamonds" });
+            var model = Model.GetInstance("ModelTestKey4", key => new Model(key));
+            var proxy = new Proxy("aces", new string[] { "clubs", "spades", "hearts", "diamonds" });
             model.RegisterProxy(proxy);
 
             // assert that the model.hasProxy method returns true
@@ -107,7 +134,7 @@ namespace PureMVC.Core
         public void TestOnRegisterAndOnRemove()
         {
             // Get the Multiton View instance
-            IModel model = Model.GetInstance("ModelTestKey5", () => new Model("ModelTestKey5"));
+            var model = Model.GetInstance("ModelTestKey5", key => new Model(key));
 
             // Create and register the test mediator
             IProxy proxy = new ModelTestProxy();

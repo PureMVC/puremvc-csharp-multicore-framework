@@ -20,10 +20,10 @@ namespace PureMVC.Patterns.Command
         /// <summary>
         /// Fabricate a result by multiplying the input by 2
         /// </summary>
-        /// <param name="note">notification the <c>INotification</c> carrying the <c>MacroCommandTestVO</c></param>
-        public override void Execute(INotification note)
+        /// <param name="notification">notification the <c>INotification</c> carrying the <c>MacroCommandTestVO</c></param>
+        public override void Execute(INotification notification)
         {
-            MacroCommandTestVO vo = (MacroCommandTestVO)note.Body;
+            var vo = (MacroCommandTestVO)notification.Body;
 
             // Fabricate a result
             vo.Result1 = 2 * vo.Input;

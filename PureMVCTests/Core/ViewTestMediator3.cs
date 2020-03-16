@@ -17,7 +17,7 @@ namespace PureMVC.Core
     public class ViewTestMediator3 : Mediator
     {
         // The Mediator name
-        public static new string NAME = "ViewTestMediator3";
+        public new const string NAME = "ViewTestMediator3";
 
         // Constructor
         public ViewTestMediator3(object viewComponent) : base(NAME, viewComponent)

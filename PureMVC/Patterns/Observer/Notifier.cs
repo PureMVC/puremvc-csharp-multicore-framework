@@ -97,7 +97,7 @@ namespace PureMVC.Patterns.Observer
         {
             get {
                 if (MultitonKey == null) throw new Exception(MULTITON_MSG);
-                return Patterns.Facade.Facade.GetInstance(MultitonKey, () => new Facade.Facade(MultitonKey));
+                return Patterns.Facade.Facade.GetInstance(MultitonKey, key => new Facade.Facade(key));
             }
         }
 

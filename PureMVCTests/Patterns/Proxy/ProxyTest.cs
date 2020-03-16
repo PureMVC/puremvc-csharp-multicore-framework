@@ -25,7 +25,7 @@ namespace PureMVC.Patterns.Proxy
         public void TestNameAccessor()
         {
             // Create a new Proxy and use accessors to set the proxy name 
-            IProxy proxy = new Proxy("TestProxy");
+            var proxy = new Proxy("TestProxy");
 
             // test assertions
             Assert.IsTrue(proxy.ProxyName == "TestProxy", "Expecting proxy.ProxyName == 'TestProxy'");
@@ -38,8 +38,8 @@ namespace PureMVC.Patterns.Proxy
         public void TestDataAccessor()
         {
             // Create a new Proxy and use accessors to set the data
-            IProxy proxy = new PureMVC.Patterns.Proxy.Proxy("colors");
-            proxy.Data = new string[3] { "red", "green", "blue" };
+            var proxy = new Proxy("colors");
+            proxy.Data = new [] { "red", "green", "blue" };
 
             // test assertions
             string[] data = (string[])proxy.Data;
@@ -56,10 +56,10 @@ namespace PureMVC.Patterns.Proxy
         public void TestConstructor()
         {
             // Create a new Proxy using the Constructor to set the name and data
-            IProxy proxy = new Proxy("colors", new string[3] { "red", "green", "blue" });
+            var proxy = new Proxy("colors", new string[3] { "red", "green", "blue" });
 
             // test assertions
-            string[] data = (string[])proxy.Data;
+            var data = (string[])proxy.Data;
             Assert.IsNotNull(proxy, "Expecting proxy not null");
             Assert.IsTrue(proxy.ProxyName == "colors", "Expecting proxy.ProxyName == 'colors'");
             Assert.IsTrue(data.Length == 3, "Expecting data.Count == 3");
