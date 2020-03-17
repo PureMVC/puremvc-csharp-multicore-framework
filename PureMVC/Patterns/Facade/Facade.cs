@@ -1,7 +1,7 @@
 ﻿//
 //  PureMVC C# Multicore
 //
-//  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
+//  Copyright(c) 2020 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
@@ -62,11 +62,11 @@ namespace PureMVC.Patterns.Facade
         /// Facade Multiton Factory method
         /// </summary>
         /// <param name="key">Key of facade</param>
-        /// <param name="func">the <c>FuncDelegate</c> of the <c>IFacade</c></param>
+        /// <param name="factory">the <c>FuncDelegate</c> of the <c>IFacade</c></param>
         /// <returns>the Multiton instance of the Facade</returns>
-        public static IFacade GetInstance(string key, Func<string, IFacade> func)
+        public static IFacade GetInstance(string key, Func<string, IFacade> factory)
         {
-            return InstanceMap.GetOrAdd(key, new Lazy<IFacade>(() => func(key))).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IFacade>(factory(key))).Value;
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿//
 //  PureMVC C# Multicore
 //
-//  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
+//  Copyright(c) 2020 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
@@ -206,6 +206,22 @@ namespace PureMVC.Core
 
             // if the command is executed twice the value will be 48
             Assert.IsTrue(vo.result == 48, "Expecting vo.result == 48");
+        }
+
+        /// <summary>
+        /// Tests the multiton instances
+        /// </summary>
+        [TestMethod]
+        public void TestMultitons()
+        {
+            var temp1 = Controller.GetInstance("A", k => new Controller(k));
+            var temp2 = Controller.GetInstance("A", k => new Controller(k));
+            
+            Assert.IsTrue(temp1 == temp2);
+            
+            temp2 = Controller.GetInstance("B", k => new Controller(k));
+            
+            Assert.IsFalse(temp1 == temp2);
         }
     }
 }

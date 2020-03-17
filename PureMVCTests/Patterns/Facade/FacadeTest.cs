@@ -1,7 +1,7 @@
 ﻿//
 //  PureMVC C# Multicore
 //
-//  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
+//  Copyright(c) 2020 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
@@ -280,6 +280,22 @@ namespace PureMVC.Patterns.Facade
 
             // assert that the Facade.hasCore method returns false now that the core has been removed.
             Assert.IsFalse(Facade.HasCore("FacadeTestKey11"), "Expecting Facade.HasCore('FacadeTestKey11') == false");
+        }
+
+        /// <summary>
+        /// Tests the multiton instances
+        /// </summary>
+        [TestMethod]
+        public void TestMultitons()
+        {
+            var temp1 = Facade.GetInstance("A", k => new Facade(k));
+            var temp2 = Facade.GetInstance("A", k => new Facade(k));
+
+            Assert.IsTrue(temp1 == temp2);
+
+            temp2 = Facade.GetInstance("B", k => new Facade(k));
+            
+            Assert.IsFalse(temp1 == temp2);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿//
 //  PureMVC C# Multicore
 //
-//  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
+//  Copyright(c) 2020 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
@@ -93,11 +93,11 @@ namespace PureMVC.Core
         /// <c>Controller</c> Multiton Factory method.
         /// </summary>
         /// <param name="key">Key of controller</param>
-        /// <param name="func">the <c>FuncDelegate</c> of the <c>IController</c></param>
+        /// <param name="factory">the <c>FuncDelegate</c> of the <c>IController</c></param>
         /// <returns>the Multiton instance of <c>Controller</c></returns>
-        public static IController GetInstance(string key, Func<string, IController> func)
+        public static IController GetInstance(string key, Func<string, IController> factory)
         {
-            return InstanceMap.GetOrAdd(key, new Lazy<IController>(() => func(key))).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IController>(factory(key))).Value;
         }
 
         /// <summary>
@@ -107,9 +107,9 @@ namespace PureMVC.Core
         /// <param name="notification">note an <c>INotification</c></param>
         public virtual void ExecuteCommand(INotification notification)
         {
-            if (commandMap.TryGetValue(notification.Name, out var commandFunc))
+            if (commandMap.TryGetValue(notification.Name, out var factory))
             {
-                var commandInstance = commandFunc();
+                var commandInstance = factory();
                 commandInstance.InitializeNotifier(multitonKey);
                 commandInstance.Execute(notification);
             }
@@ -131,14 +131,14 @@ namespace PureMVC.Core
         ///     </para>
         /// </remarks>
         /// <param name="notificationName">the name of the <c>INotification</c></param>
-        /// <param name="commandFunc">the <c>Func Delegate</c> of the <c>ICommand</c></param>
-        public virtual void RegisterCommand(string notificationName, Func<ICommand> commandFunc)
+        /// <param name="factory">the <c>Func Delegate</c> of the <c>ICommand</c></param>
+        public virtual void RegisterCommand(string notificationName, Func<ICommand> factory)
         {
             if (commandMap.TryGetValue(notificationName, out _) == false)
             {
                 view.RegisterObserver(notificationName, new Observer(ExecuteCommand, this));
             }
-            commandMap[notificationName] = commandFunc;
+            commandMap[notificationName] = factory;
         }
 
         /// <summary>

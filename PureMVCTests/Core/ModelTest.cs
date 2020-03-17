@@ -1,7 +1,7 @@
 ﻿//
 //  PureMVC C# Multicore
 //
-//  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
+//  Copyright(c) 2020 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
@@ -148,6 +148,22 @@ namespace PureMVC.Core
 
             // assert that onRemove was called, and the proxy responded by setting its data accordingly
             Assert.IsTrue(proxy.Data.ToString() == ModelTestProxy.ON_REMOVE_CALLED, "Expecting proxy.Data.ToString() == ModelTestProxy.ON_REMOVE_CALLED");
+        }
+
+        /// <summary>
+        /// Tests the multiton instances
+        /// </summary>
+        [TestMethod]
+        public void TestMultitons()
+        {
+            var temp1 = Model.GetInstance("A", k => new Model(k));
+            var temp2 = Model.GetInstance("A", k => new Model(k));
+            
+            Assert.IsTrue(temp1 == temp2);
+
+            temp2 = Model.GetInstance("B", k => new Model(k));
+            
+            Assert.IsFalse(temp1 == temp2);
         }
     }
 }

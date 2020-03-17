@@ -1,12 +1,14 @@
-PureMVC MultiCore Framework for C#
+PureMVC MultiCore Framework for C# 
 --------------------------------------------------------------------------
-Release Date: 03/22/19
+Release Date: 03/17/20
     Platform: C# 
      Version: 2
-    Revision: 1
+    Revision: 2
        Minor: 0
       Author: Saad Shams <saad.shams@puremvc.org>
 --------------------------------------------------------------------------
+2.2 - Refactor
+
 2.1 - Nuget Integration
 
 2.0 - Brand new implementation of ported code, equivalent to AS3 MultiCore Version 1.0.5.

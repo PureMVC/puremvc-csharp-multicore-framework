@@ -1,7 +1,7 @@
 ﻿//
 //  PureMVC C# Multicore
 //
-//  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
+//  Copyright(c) 2020 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
@@ -98,10 +98,10 @@ namespace PureMVC.Patterns.Command
         ///         order.
         ///     </para>
         /// </remarks>
-        /// <param name="commandFunc">a reference to the <c>FuncDelegate</c> of the <c>ICommand</c>.</param>
-        protected void AddSubCommand(Func<ICommand> commandFunc)
+        /// <param name="factory">a reference to the <c>FuncDelegate</c> of the <c>ICommand</c>.</param>
+        protected void AddSubCommand(Func<ICommand> factory)
         {
-            subcommands.Add(commandFunc);
+            subcommands.Add(factory);
         }
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace PureMVC.Patterns.Command
         {
             while(subcommands.Count > 0)
             {
-                var commandFunc = subcommands[0];
-                var commandInstance = commandFunc();
+                var factory = subcommands[0];
+                var commandInstance = factory();
                 commandInstance.InitializeNotifier(MultitonKey);
                 commandInstance.Execute(notification);
                 subcommands.RemoveAt(0);

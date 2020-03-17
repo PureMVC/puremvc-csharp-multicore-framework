@@ -1,7 +1,7 @@
 ﻿//
 //  PureMVC C# Multicore
 //
-//  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
+//  Copyright(c) 2020 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
@@ -72,11 +72,11 @@ namespace PureMVC.Core
         /// <c>View</c> Multiton Factory method. 
         /// </summary>
         /// <param name="key">Key of view</param>
-        /// <param name="func">the <c>FuncDelegate</c> of the <c>IView</c></param>
+        /// <param name="factory">the <c>FuncDelegate</c> of the <c>IView</c></param>
         /// <returns>the instance for this Multiton key </returns>
-        public static IView GetInstance(string key, Func<string, IView> func)
+        public static IView GetInstance(string key, Func<string, IView> factory)
         {
-            return InstanceMap.GetOrAdd(key, new Lazy<IView>(() => func(key))).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IView>(factory(key))).Value;
         }
 
         /// <summary>

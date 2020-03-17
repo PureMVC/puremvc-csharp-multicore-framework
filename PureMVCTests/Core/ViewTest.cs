@@ -1,7 +1,7 @@
 ﻿//
 //  PureMVC C# Multicore
 //
-//  Copyright(c) 2017 Saad Shams <saad.shams@puremvc.org>
+//  Copyright(c) 2020 Saad Shams <saad.shams@puremvc.org>
 //  Your reuse is governed by the Creative Commons Attribution 3.0 License
 //
 
@@ -419,6 +419,22 @@ namespace PureMVC.Core
             view.NotifyObservers(new Notification(NOTE6));
             // verify the count is 0
             Assert.AreEqual(0, counter, "Expecting counter ==0");
+        }
+
+        /// <summary>
+        /// Tests the multiton instances
+        /// </summary>
+        [TestMethod]
+        public void TestMultitons()
+        {
+            var temp1 = View.GetInstance("A", k => new View(k));
+            var temp2 = View.GetInstance("A", k => new View(k));
+            
+            Assert.IsTrue(temp1 == temp2);
+
+            temp2 = View.GetInstance("B", k => new View(k));
+            
+            Assert.IsFalse(temp1 == temp2);
         }
     }
 }
