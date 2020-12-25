@@ -47,7 +47,7 @@ namespace PureMVC.Core
         public Model(string key)
         {
             multitonKey = key;
-            InstanceMap.TryAdd(key, new Lazy<IModel>(this));
+            InstanceMap.TryAdd(key, new Lazy<IModel>(() => this));
             proxyMap = new ConcurrentDictionary<string, IProxy>();
             InitializeModel();
         }
@@ -75,7 +75,7 @@ namespace PureMVC.Core
         /// <returns>the instance for this Multiton key </returns>
         public static IModel GetInstance(string key, Func<string, IModel> factory)
         {
-            return InstanceMap.GetOrAdd(key, new Lazy<IModel>(factory(key))).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IModel>(() => factory(key))).Value;
         }
 
         /// <summary>

@@ -59,7 +59,7 @@ namespace PureMVC.Core
         public Controller(string key)
         {
             multitonKey = key;
-            InstanceMap.TryAdd(multitonKey, new Lazy<IController>(this));
+            InstanceMap.TryAdd(multitonKey, new Lazy<IController>(() => this));
             commandMap = new ConcurrentDictionary<string, Func<ICommand>>();
             InitializeController();
         }
@@ -97,7 +97,7 @@ namespace PureMVC.Core
         /// <returns>the Multiton instance of <c>Controller</c></returns>
         public static IController GetInstance(string key, Func<string, IController> factory)
         {
-            return InstanceMap.GetOrAdd(key, new Lazy<IController>(factory(key))).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IController>(() => factory(key))).Value;
         }
 
         /// <summary>

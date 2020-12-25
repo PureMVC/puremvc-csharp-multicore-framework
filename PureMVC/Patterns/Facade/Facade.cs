@@ -37,7 +37,7 @@ namespace PureMVC.Patterns.Facade
         public Facade(string key)
         {
             InitializeNotifier(key);
-            InstanceMap.TryAdd(key, new Lazy<IFacade>(this));
+            InstanceMap.TryAdd(key, new Lazy<IFacade>(() => this));
             InitializeFacade();
         }
 
@@ -66,7 +66,7 @@ namespace PureMVC.Patterns.Facade
         /// <returns>the Multiton instance of the Facade</returns>
         public static IFacade GetInstance(string key, Func<string, IFacade> factory)
         {
-            return InstanceMap.GetOrAdd(key, new Lazy<IFacade>(factory(key))).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IFacade>(() => factory(key))).Value;
         }
 
         /// <summary>

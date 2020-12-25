@@ -47,7 +47,7 @@ namespace PureMVC.Core
         public View(string key)
         {
             multitonKey = key;
-            InstanceMap.TryAdd(key, new Lazy<IView>(this));
+            InstanceMap.TryAdd(key, new Lazy<IView>(() => this));
             mediatorMap = new ConcurrentDictionary<string, IMediator>();
             observerMap = new ConcurrentDictionary<string, IList<IObserver>>();
             InitializeView();
@@ -76,7 +76,7 @@ namespace PureMVC.Core
         /// <returns>the instance for this Multiton key </returns>
         public static IView GetInstance(string key, Func<string, IView> factory)
         {
-            return InstanceMap.GetOrAdd(key, new Lazy<IView>(factory(key))).Value;
+            return InstanceMap.GetOrAdd(key, new Lazy<IView>(() => factory(key))).Value;
         }
 
         /// <summary>
