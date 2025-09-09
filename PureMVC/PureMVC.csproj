@@ -21,4 +21,16 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="..\.gitignore">
+      <Link>.gitignore</Link>
+    </Content>
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+    </Content>
+    <Content Include="..\CHANGELOG.md">
+      <Link>CHANGELOG</Link>
+    </Content>
+  </ItemGroup>
+    
 </Project>
